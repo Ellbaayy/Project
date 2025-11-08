@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialHub - Connect, Chat, Celebrate</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-primary: #f7f9fc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f3f7;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --text-primary: #1a1d23;
+            --text-secondary: #6c7293;
+            --text-tertiary: #a0a3bd;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-color: #667eea;
+            --accent-hover: #5a67d8;
+            --success: #48bb78;
+            --danger: #f56565;
+            --warning: #ed8936;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1d23;
+            --bg-tertiary: #252932;
+            --bg-glass: rgba(26, 29, 35, 0.7);
+            --text-primary: #f7f9fc;
+            --text-secondary: #a0a3bd;
+            --text-tertiary: #6c7293;
+            --border: #2d323d;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: var(--bg-glass);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: none;
+            padding: 0.6rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        /* Navigation */
+        nav {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background-color: transparent;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            background-color: var(--bg-secondary);
+            color: var(--accent-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .view {
+            display: none;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        /* Event & Friend Items */
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .event-card, .friend-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .event-card:hover, .friend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .card-image-placeholder {
+            height: 120px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .card-body p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        .card-footer {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .friend-card {
+            text-align: center;
+        }
+        .friend-card .card-image-placeholder {
+            height: 150px;
+            font-size: 4rem;
+        }
+        .friend-card .card-body h3 {
+            font-size: 1.1rem;
+        }
+        .similarity-badge {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Profile */
+        .profile-display {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .profile-display img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-tertiary);
+            box-shadow: var(--shadow-lg);
+        }
+        .profile-display-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .profile-display-info p {
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        .profile-display-info p strong {
+            color: var(--text-primary);
+        }
+
+        /* Chat */
+        .chat-window {
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-color: var(--bg-tertiary);
+        }
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            animation: messageSlide 0.3s ease-out;
+        }
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .message.sent { align-items: flex-end; }
+        .message.received { align-items: flex-start; }
+        .chat-bubble {
+            max-width: 70%;
+            padding: 1rem 1.2rem;
+            border-radius: var(--radius-lg);
+            background-color: var(--bg-secondary);
+            word-wrap: break-word;
+            box-shadow: var(--shadow-sm);
+        }
+        .message.sent .chat-bubble {
+            background: var(--accent-gradient);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message.received .chat-bubble {
+            border-bottom-left-radius: 4px;
+        }
+        .message-info {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-top: 0.5rem;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .chat-input-area input[type="text"] {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background-color: var(--bg-tertiary);
+        }
+        .chat-input-area input[type="file"] { display: none; }
+        .file-upload-btn {
+            padding: 0.8rem;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .file-upload-btn:hover {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        /* Call */
+        .call-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .call-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .call-btn.voice { background: var(--success); }
+        .call-btn.video { background: var(--accent-color); }
+        .call-btn.end { background: var(--danger); }
+        .call-btn:hover { transform: scale(1.1); box-shadow: var(--shadow-lg); }
+
+        .videos-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            height: 450px;
+        }
+        .video-wrapper {
+            background-color: #000;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-label {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.5);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .filter-controls input, .filter-controls select {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* AI Assistant Styles */
+        .ai-assistant-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            z-index: 1000;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+        .ai-assistant-fab:hover {
+            transform: scale(1.1);
+        }
+
+        #ai-assistant-window {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 380px;
+            height: 550px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        #ai-assistant-window.open {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .ai-chat-header {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .ai-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .ai-close-btn:hover { opacity: 1; }
+
+        .ai-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: var(--bg-tertiary);
+        }
+        .ai-message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .ai-message.user { align-items: flex-end; }
+        .ai-message.ai { align-items: flex-start; }
+        .ai-bubble {
+            max-width: 80%;
+            padding: 0.8rem 1.1rem;
+            border-radius: var(--radius-lg);
+            word-wrap: break-word;
+            font-size: 0.95rem;
+        }
+        .ai-message.user .ai-bubble {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-bottom-right-radius: 4px;
+        }
+        .ai-message.ai .ai-bubble {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+        .ai-message.ai .ai-bubble strong {
+            color: var(--accent-color);
+        }
+
+        .ai-chat-input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            gap: 0.5rem;
+        }
+        .ai-chat-input-area input {
+            flex-grow: 1;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background-color: var(--bg-tertiary);
+        }
+        .ai-send-btn {
+            padding: 0.7rem 1.2rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            padding: 0.8rem 1.1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            width: fit-content;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: var(--text-tertiary);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        /* Data Management Card */
+        .data-management-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .data-management-actions .btn {
+            flex-grow: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 1rem; }
+            .profile-display { flex-direction: column; text-align: center; }
+            .videos-container { grid-template-columns: 1fr; height: auto; }
+            .video-wrapper { height: 250px; }
+            .item-grid { grid-template-columns: 1fr; }
+            nav { flex-wrap: wrap; }
+            .nav-btn { font-size: 0.9rem; padding: 0.7rem 0.5rem; }
+            #ai-assistant-window {
+                width: calc(100% - 2rem);
+                right: 1rem;
+                left: 1rem;
+                height: 70vh;
+                bottom: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🌐</div>
+                    <span>SocialHub</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+            <nav>
+                <button class="nav-btn active" onclick="showView('events')">🎉 Events</button>
+                <button class="nav-btn" onclick="showView('profile')">👤 Profile</button>
+                <button class="nav-btn" onclick="showView('friends')">🤝 Friends</button>
+                <button class="nav-btn" onclick="showView('chat')">💬 Chat</button>
+                <button class="nav-btn" onclick="showView('call')">📞 Call</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Event View -->
+        <section id="events-view" class="view active">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Upcoming Events</h2>
+                </div>
+                <div class="filter-controls">
+                    <input type="text" id="filter-hobby" placeholder="🔍 Filter by Hobby...">
+                    <input type="text" id="filter-interest" placeholder="🔍 Filter by Interest...">
+                    <select id="filter-personality">
+                        <option value="">All Personalities</option>
+                        <option value="Introvert">Introvert</option>
+                        <option value="Extrovert">Extrovert</option>
+                        <option value="Ambivert">Ambivert</option>
+                    </select>
+                </div>
+                <div class="item-grid" id="event-list"></div>
+            </div>
+        </section>
+
+        <!-- Profile View -->
+        <section id="profile-view" class="view">
+            <div class="card">
+                <h2>✨ Edit My Profile</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name">Full Name</label>
+                        <input type="text" id="profile-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-hobbies">Hobbies (comma separated)</label>
+                        <input type="text" id="profile-hobbies" placeholder="e.g., Reading, Swimming">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-interests">Interests (comma separated)</label>
+                        <input type="text" id="profile-interests" placeholder="e.g., Technology, Movies">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-personality">Personality Type</label>
+                        <select id="profile-personality">
+                            <option value="Introvert">Introvert</option>
+                            <option value="Extrovert">Extrovert</option>
+                            <option value="Ambivert">Ambivert</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-pic">Profile Picture URL</label>
+                        <input type="text" id="profile-pic" placeholder="https://link-to-photo.jpg">
+                    </div>
+                    <button type="submit" class="btn">Save Profile</button>
+                </form>
+            </div>
+            <div class="card" id="profile-display-card" style="display:none;">
+                <h2>👋 My Profile</h2>
+                <div class="profile-display">
+                    <img id="display-pic" src="" alt="Profile Picture">
+                    <div class="profile-display-info">
+                        <h3 id="display-name"></h3>
+                        <p><strong>Hobbies:</strong> <span id="display-hobbies"></span></p>
+                        <p><strong>Interests:</strong> <span id="display-interests"></span></p>
+                        <p><strong>Personality:</strong> <span id="display-personality"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>🗂️ Database Management</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Manage your data locally. You can export your data as a backup and import it back if needed.</p>
+                <div class="data-management-actions">
+                    <button class="btn" onclick="exportDatabase()">📥 Export Data</button>
+                    <label for="import-db" class="btn" style="margin: 0;">📤 Import Data</label>
+                    <input type="file" id="import-db" accept=".json" style="display:none;" onchange="importDatabase(event)">
+                    <button class="btn btn-danger" onclick="resetDatabase()">🗑️ Reset Database</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Friends View -->
+        <section id="friends-view" class="view">
+            <div class="card">
+                <h2>💡 Friend Suggestions</h2>
+                <div class="item-grid" id="friend-list"></div>
+            </div>
+        </section>
+
+        <!-- Chat View -->
+        <section id="chat-view" class="view">
+            <div class="card">
+                <h2>💬 Chat with Bot</h2>
+                <div class="chat-window">
+                    <div class="chat-messages" id="chat-messages"></div>
+                    <div class="chat-input-area">
+                        <input type="file" id="file-input" accept="image/*,audio/*,.pdf,.docx,.txt">
+                        <label for="file-input" class="file-upload-btn">📎</label>
+                        <input type="text" id="chat-input" placeholder="Type a message...">
+                        <button class="btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call View -->
+        <section id="call-view" class="view">
+            <div class="card">
+                <h2>📹 WebRTC Call (Simulation)</h2>
+                <div class="call-controls">
+                    <button class="call-btn voice" onclick="startCall('voice')">🎤</button>
+                    <button class="call-btn video" onclick="startCall('video')">📹</button>
+                    <button class="call-btn end" onclick="endCall()">📞</button>
+                </div>
+                <div class="videos-container">
+                    <div class="video-wrapper">
+                        <video id="local-video" autoplay muted playsinline></video>
+                        <span id="local-video-placeholder" class="video-label">You</span>
+                    </div>
+                    <div class="video-wrapper">
+                        <video id="remote-video" autoplay playsinline></video>
+                        <span id="remote-video-placeholder" class="video-label">Friend (Simulated)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Assistant -->
+    <button class="ai-assistant-fab" onclick="toggleAIAssistant()">🤖</button>
+    <div id="ai-assistant-window">
+        <div class="ai-chat-header">
+            <h3>Hubby AI - Your Expert</h3>
+            <button class="ai-close-btn" onclick="toggleAIAssistant()">&times;</button>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+            <div class="ai-message ai">
+                <div class="ai-bubble">
+                    Hello! I'm Hubby, your virtual expert on SocialHub. I can explain features, analyze your data, and even perform actions for you. Ask me anything!
+                </div>
+            </div>
+        </div>
+        <div class="typing-indicator" id="ai-typing">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="ai-input" placeholder="Type a command..." onkeypress="handleAIKeyPress(event)">
+            <button class="ai-send-btn" onclick="sendAIMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // =================================================================
+        // DATABASE LAYER (Using LocalStorage)
+        // =================================================================
+        const DB = {
+            dbName: 'socialHubDB', // Keep key for backward compatibility
+            defaultData: {
+                profile: {},
+                friends: [
+                    { id: 1, name: 'Alice', hobbies: ['Reading', 'Writing'], interests: ['Literature', 'Film'], personality: 'Introvert', status: 'none', pic: 'https://i.pravatar.cc/150?img=1', emoji: '👩‍🎓' },
+                    { id: 2, name: 'Bob', hobbies: ['Swimming', 'Basketball'], interests: ['Sports', 'Health'], personality: 'Extrovert', status: 'none', pic: 'https://i.pravatar.cc/150?img=2', emoji: '🏃‍♂️' },
+                    { id: 3, name: 'Charlie', hobbies: ['Coding', 'Gaming'], interests: ['Technology', 'Sci-Fi'], personality: 'Ambivert', status: 'none', pic: 'https://i.pravatar.cc/150?img=3', emoji: '🧑‍💻' },
+                    { id: 4, name: 'Diana', hobbies: ['Cooking', 'Traveling'], interests: ['Cuisine', 'Culture'], personality: 'Extrovert', status: 'none', pic: 'https://i.pravatar.cc/150?img=4', emoji: '👩‍🍳' },
+                    { id: 5, name: 'Eve', hobbies: ['Photography', 'Design'], interests: ['Art', 'Architecture'], personality: 'Introvert', status: 'none', pic: 'https://i.pravatar.cc/150?img=5', emoji: '🎨' },
+                ],
+                messages: [],
+                aiMessages: [
+                    { content: "Hello! I'm Hubby, your virtual expert on SocialHub. I can explain features, analyze your data, and even perform actions for you. Ask me anything!", sender: 'ai' }
+                ]
+            },
+
+            init() {
+                if (!localStorage.getItem(this.dbName)) {
+                    localStorage.setItem(this.dbName, JSON.stringify(this.defaultData));
+                }
+            },
+
+            get() {
+                return JSON.parse(localStorage.getItem(this.dbName));
+            },
+
+            save(data) {
+                localStorage.setItem(this.dbName, JSON.stringify(data));
+            },
+
+            getProfile() {
+                return this.get().profile;
+            },
+
+            saveProfile(profile) {
+                const data = this.get();
+                data.profile = profile;
+                this.save(data);
+            },
+
+            getFriends() {
+                return this.get().friends;
+            },
+
+            updateFriend(friendId, newData) {
+                const data = this.get();
+                const friendIndex = data.friends.findIndex(f => f.id === friendId);
+                if (friendIndex !== -1) {
+                    data.friends[friendIndex] = { ...data.friends[friendIndex], ...newData };
+                    this.save(data);
+                }
+            },
+
+            getMessages() {
+                return this.get().messages;
+            },
+
+            saveMessage(message) {
+                const data = this.get();
+                data.messages.push(message);
+                this.save(data);
+            },
+
+            getAIMessages() {
+                return this.get().aiMessages;
+            },
+
+            saveAIMessage(message) {
+                const data = this.get();
+                data.aiMessages.push(message);
+                this.save(data);
+            },
+
+            clearAll() {
+                localStorage.removeItem(this.dbName);
+                this.init(); // Re-initialize with default data
+            }
+        };
+
+        // --- GLOBAL STATE & INIT ---
+        const appState = {
+            profile: {},
+            friends: [],
+            messages: [],
+            aiMessages: [],
+            localStream: null,
+            remoteStream: null,
+            peerConnection: null,
+            isAIWindowOpen: false
+        };
+
+        const dummyEvents = [
+            { id: 1, name: 'Photography Workshop', date: '2024-12-15', hobby: 'Photography', interest: 'Art', personality: 'Introvert', icon: '📷' },
+            { id: 2, name: 'Bromo Mountain Trek', date: '2024-12-20', hobby: 'Hiking', interest: 'Nature', personality: 'Extrovert', icon: '⛰️' },
+            { id: 3, name: 'Startup Tech Meetup', date: '2025-01-10', hobby: 'Networking', interest: 'Technology', personality: 'Extrovert', icon: '💻' },
+            { id: 4, name: 'Book Reading Night', date: '2025-01-18', hobby: 'Reading', interest: 'Literature', personality: 'Introvert', icon: '📚' },
+            { id: 5, name: 'Indie Music Festival', date: '2025-02-05', hobby: 'Music', interest: 'Concert', personality: 'Ambivert', icon: '🎸' },
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            DB.init(); // Initialize database
+            loadStateFromDB();
+            renderEvents();
+            renderProfile();
+            renderFriends();
+            renderMessages();
+            renderAIMessages();
+            setupEventListeners();
+            applyTheme();
+        });
+
+        function loadStateFromDB() {
+            const data = DB.get();
+            appState.profile = data.profile;
+            appState.friends = data.friends;
+            appState.messages = data.messages;
+            appState.aiMessages = data.aiMessages;
+        }
+
+        // --- DATA MANAGEMENT UI FUNCTIONS ---
+        function exportDatabase() {
+            const data = DB.get();
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = `socialhub-backup-${new Date().toISOString().slice(0,10)}.json`;
+
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        function importDatabase(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    DB.save(importedData);
+                    loadStateFromDB(); // Reload state from DB
+                    renderProfile();
+                    renderFriends();
+                    renderMessages();
+                    renderAIMessages();
+                    alert('Data imported successfully! The page will now reload.');
+                    window.location.reload();
+                } catch (error) {
+                    alert('Failed to import file. Please ensure it is a valid JSON file.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function resetDatabase() {
+            if (confirm('WARNING: This will delete ALL your data (profile, friends, messages) and restore the app to its initial state. Are you sure?')) {
+                DB.clearAll();
+                alert('Database has been reset. The page will now reload.');
+                window.location.reload();
+            }
+        }
+
+
+        // --- THEME TOGGLE ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            document.querySelector('.theme-toggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // --- VIEW MANAGEMENT ---
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${viewName}-view`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // --- EVENT LISTENERS ---
+        function setupEventListeners() {
+            document.getElementById('profile-form').addEventListener('submit', handleProfileSubmit);
+            document.getElementById('filter-hobby').addEventListener('input', renderEvents);
+            document.getElementById('filter-interest').addEventListener('input', renderEvents);
+            document.getElementById('filter-personality').addEventListener('change', renderEvents);
+            document.getElementById('chat-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+            document.getElementById('file-input').addEventListener('change', handleFileSelect);
+        }
+
+        // --- PROFILE ---
+        function handleProfileSubmit(e) {
+            e.preventDefault();
+            const newProfile = {
+                name: document.getElementById('profile-name').value,
+                hobbies: document.getElementById('profile-hobbies').value.split(',').map(h => h.trim()),
+                interests: document.getElementById('profile-interests').value.split(',').map(i => i.trim()),
+                personality: document.getElementById('profile-personality').value,
+                pic: document.getElementById('profile-pic').value || `https://i.pravatar.cc/150?u=${Date.now()}`
+            };
+            DB.saveProfile(newProfile);
+            appState.profile = newProfile; // Update local state
+            renderProfile();
+            alert('Profile saved successfully!');
+        }
+
+        function renderProfile() {
+            const profile = appState.profile;
+            if (profile.name) {
+                document.getElementById('profile-display-card').style.display = 'block';
+                document.getElementById('display-name').textContent = profile.name;
+                document.getElementById('display-hobbies').textContent = profile.hobbies.join(', ');
+                document.getElementById('display-interests').textContent = profile.interests.join(', ');
+                document.getElementById('display-personality').textContent = profile.personality;
+                document.getElementById('display-pic').src = profile.pic;
+                
+                document.getElementById('profile-name').value = profile.name;
+                document.getElementById('profile-hobbies').value = profile.hobbies.join(', ');
+                document.getElementById('profile-interests').value = profile.interests.join(', ');
+                document.getElementById('profile-personality').value = profile.personality;
+                document.getElementById('profile-pic').value = profile.pic;
+            }
+        }
+
+        // --- EVENTS ---
+        function renderEvents() {
+            const hobbyFilter = document.getElementById('filter-hobby').value.toLowerCase();
+            const interestFilter = document.getElementById('filter-interest').value.toLowerCase();
+            const personalityFilter = document.getElementById('filter-personality').value;
+
+            const filteredEvents = dummyEvents.filter(event => {
+                const hobbyMatch = event.hobby.toLowerCase().includes(hobbyFilter);
+                const interestMatch = event.interest.toLowerCase().includes(interestFilter);
+                const personalityMatch = !personalityFilter || event.personality === personalityFilter;
+                return hobbyMatch && interestMatch && personalityMatch;
+            });
+
+            const eventList = document.getElementById('event-list');
+            eventList.innerHTML = filteredEvents.map(event => `
+                <div class="event-card">
+                    <div class="card-image-placeholder">${event.icon}</div>
+                    <div class="card-body">
+                        <h3>${event.name}</h3>
+                        <p>📅 ${event.date} | 🎯 ${event.hobby} | 💡 ${event.interest} | ${event.personality}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn" style="width: 100%;">Join Event</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- FRIENDS ---
+        function calculateSimilarity(friend) {
+            const profile = appState.profile;
+            if (!profile.hobbies) return 0;
+            
+            let score = 0;
+            const hobbyIntersection = friend.hobbies.filter(h => profile.hobbies.includes(h));
+            const interestIntersection = friend.interests.filter(i => profile.interests.includes(i));
+            
+            score += hobbyIntersection.length * 2;
+            score += interestIntersection.length;
+            if (friend.personality === profile.personality) score += 1;
+
+            return score;
+        }
+
+        function renderFriends() {
+            const sortedFriends = [...appState.friends].sort((a, b) => calculateSimilarity(b) - calculateSimilarity(a));
+            const friendList = document.getElementById('friend-list');
+            friendList.innerHTML = sortedFriends.map(friend => {
+                const similarity = calculateSimilarity(friend);
+                let actionButton = '';
+                if (friend.status === 'none') {
+                    actionButton = `<button class="btn" onclick="handleFriendAction(${friend.id}, 'add')">Add Friend</button>`;
+                } else if (friend.status === 'request_sent') {
+                    actionButton = `<span style="color: var(--text-secondary);">Request Sent</span>`;
+                } else if (friend.status === 'request_received') {
+                    actionButton = `<button class="btn" onclick="handleFriendAction(${friend.id}, 'accept')">Accept</button> <button class="btn btn-secondary" onclick="handleFriendAction(${friend.id}, 'reject')">Reject</button>`;
+                } else if (friend.status === 'friends') {
+                    actionButton = `<span style="color: var(--success);">✔️ Friends</span>`;
+                }
+
+                return `
+                    <div class="friend-card">
+                        <div class="card-image-placeholder">${friend.emoji}</div>
+                        <div class="card-body">
+                            <h3>${friend.name}</h3>
+                            <p><span class="similarity-badge">Match: ${similarity}</span></p>
+                            <p>Hobbies: ${friend.hobbies.join(', ')}</p>
+                        </div>
+                        <div class="card-footer">
+                           ${actionButton}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleFriendAction(friendId, action) {
+            const friend = appState.friends.find(f => f.id === friendId);
+            let newStatus = '';
+            if (action === 'add') {
+                newStatus = 'request_sent';
+                setTimeout(() => {
+                    DB.updateFriend(friendId, { status: 'request_received' });
+                    appState.friends.find(f => f.id === friendId).status = 'request_received';
+                    renderFriends();
+                }, 2000);
+            } else if (action === 'accept') {
+                newStatus = 'friends';
+            } else if (action === 'reject') {
+                newStatus = 'none';
+            }
+            
+            DB.updateFriend(friendId, { status: newStatus });
+            appState.friends.find(f => f.id === friendId).status = newStatus;
+            renderFriends();
+        }
+
+        // --- CHAT ---
+        function renderMessages() {
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = appState.messages.map(msg => `
+                <div class="message ${msg.sender}">
+                    <div class="chat-bubble">${msg.type === 'text' ? msg.content : `<a href="${msg.content}" target="_blank" style="color: inherit;">📎 ${msg.fileName}</a>`}</div>
+                    <div class="message-info">${msg.sender === 'sent' ? 'You' : 'Bot'} • ${msg.timestamp}</div>
+                </div>
+            `).join('');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const message = {
+                sender: 'sent',
+                type: 'text',
+                content: text,
+                timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+            };
+            DB.saveMessage(message);
+            appState.messages.push(message); // Update local state
+            renderMessages();
+            input.value = '';
+
+            setTimeout(() => {
+                const response = {
+                    sender: 'received',
+                    type: 'text',
+                    content: `Thank you, your message "${text}" has been received!`,
+                    timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                };
+                DB.saveMessage(response);
+                appState.messages.push(response);
+                renderMessages();
+            }, 1000);
+        }
+        
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const message = {
+                    sender: 'sent',
+                    type: 'file',
+                    content: event.target.result,
+                    fileName: file.name,
+                    timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                };
+                DB.saveMessage(message);
+                appState.messages.push(message);
+                renderMessages();
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        }
+
+        // --- WEBRTC CALL ---
+        async function startCall(type) {
+            try {
+                const constraints = { video: type === 'video', audio: true };
+                appState.localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                const localVideo = document.getElementById('local-video');
+                localVideo.srcObject = appState.localStream;
+                document.getElementById('local-video-placeholder').style.display = 'none';
+
+                appState.peerConnection = new RTCPeerConnection();
+                appState.localStream.getTracks().forEach(track => appState.peerConnection.addTrack(track, appState.localStream));
+                
+                appState.peerConnection.ontrack = (event) => {
+                    appState.remoteStream = event.streams[0];
+                    const remoteVideo = document.getElementById('remote-video');
+                    remoteVideo.srcObject = appState.remoteStream;
+                    document.getElementById('remote-video-placeholder').style.display = 'none';
+                };
+                
+                const offer = await appState.peerConnection.createOffer();
+                await appState.peerConnection.setLocalDescription(offer);
+                await appState.peerConnection.setRemoteDescription(offer);
+                
+                const answer = await appState.peerConnection.createAnswer();
+                await appState.peerConnection.setRemoteDescription(answer);
+                await appState.peerConnection.setLocalDescription(answer);
+
+            } catch (err) {
+                console.error('Error accessing media devices.', err);
+                alert('Could not access camera/microphone. Please ensure you have granted permission.');
+            }
+        }
+
+        function endCall() {
+            if (appState.localStream) {
+                appState.localStream.getTracks().forEach(track => track.stop());
+                appState.localStream = null;
+            }
+            if (appState.remoteStream) {
+                appState.remoteStream.getTracks().forEach(track => track.stop());
+                appState.remoteStream = null;
+            }
+            if (appState.peerConnection) {
+                appState.peerConnection.close();
+                appState.peerConnection = null;
+            }
+            
+            document.getElementById('local-video').srcObject = null;
+            document.getElementById('remote-video').srcObject = null;
+            document.getElementById('local-video-placeholder').style.display = 'flex';
+            document.getElementById('remote-video-placeholder').style.display = 'flex';
+        }
+        
+        // --- AI ASSISTANT ---
+        function toggleAIAssistant() {
+            const window = document.getElementById('ai-assistant-window');
+            appState.isAIWindowOpen = !appState.isAIWindowOpen;
+            if (appState.isAIWindowOpen) {
+                window.classList.add('open');
+                document.getElementById('ai-input').focus();
+            } else {
+                window.classList.remove('open');
+            }
+        }
+
+        function handleAIKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addAIMessage(text, 'user');
+            input.value = '';
+
+            showAITypingIndicator();
+            setTimeout(() => {
+                const response = processAICommand(text);
+                hideAITypingIndicator();
+                addAIMessage(response, 'ai');
+            }, 800 + Math.random() * 700); // Random delay for realism
+        }
+        
+        function addAIMessage(content, sender) {
+            DB.saveAIMessage({ content, sender });
+            appState.aiMessages.push({ content, sender }); // Update local state
+            renderAIMessages();
+        }
+
+        function renderAIMessages() {
+            const container = document.getElementById('ai-messages');
+            container.innerHTML = appState.aiMessages.map(msg => `
+                <div class="ai-message ${msg.sender}">
+                    <div class="ai-bubble">${msg.content}</div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showAITypingIndicator() {
+            document.getElementById('ai-typing').style.display = 'flex';
+        }
+
+        function hideAITypingIndicator() {
+            document.getElementById('ai-typing').style.display = 'none';
+        }
+
+        // --- AI HELPER FUNCTIONS ---
+        function navigateTo(page) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${page}-view`).classList.add('active');
+            document.querySelector(`button[onclick="showView('${page}')"]`).classList.add('active');
+        }
+        
+        function findFriendByName(name) {
+            return appState.friends.find(f => f.name.toLowerCase() === name.toLowerCase());
+        }
+        
+        // --- AI COMMAND PROCESSOR ---
+        function processAICommand(input) {
+            const lowerInput = input.toLowerCase();
+            const profile = appState.profile;
+
+            // --- Meta & General Questions ---
+            if (lowerInput.includes('what is this') || lowerInput.includes('what is socialhub')) {
+                return `SocialHub is a single-page social event application designed to connect people based on their interests, hobbies, and personalities. Its main features include <strong>Events</strong>, <strong>Profile</strong>, <strong>Friends</strong>, <strong>Chat</strong>, <strong>Voice/Video Calls</strong>, and of course, <strong>Me (Hubby AI)</strong>!`;
+            }
+            if (lowerInput.includes('what are features') || lowerInput.includes('what features')) {
+                return `SocialHub has 6 main features:<br>
+                1. <strong>Events:</strong> Explore and filter events that match you.<br>
+                2. <strong>Profile:</strong> Manage your identity and interests.<br>
+                3. <strong>Friends:</strong> Find and connect with new people.<br>
+                4. <strong>Chat:</strong> Send text, image, and document messages.<br>
+                5. <strong>Call:</strong> Make voice and video calls (simulated).<br>
+                6. <strong>Hubby AI:</strong> Me! Your intelligent assistant for all things SocialHub.`;
+            }
+            if (lowerInput.includes('who are you')) {
+                return `I am Hubby AI, a virtual assistant integrated into SocialHub. I am here to help you understand and use all of the website's features, analyze your data, and perform actions on your behalf.`;
+            }
+            
+            // --- Data Analysis & Profile Queries ---
+            if (lowerInput.includes('who am i') || lowerInput.includes('my profile')) {
+                if (!profile.name) return `You haven't set up a profile yet. Please create one first on the <strong>Profile</strong> page.`;
+                return `Your name is <strong>${profile.name}</strong>. You are an <strong>${profile.personality}</strong> with hobbies like <strong>${profile.hobbies.join(', ')}</strong> and interests in <strong>${profile.interests.join(', ')}</strong>.`;
+            }
+            if (lowerInput.includes('how many friends')) {
+                const friendCount = appState.friends.length;
+                const friendNames = appState.friends.map(f => f.name).join(', ');
+                return `You have <strong>${friendCount}</strong> friends in your list. They are: ${friendNames}.`;
+            }
+            if (lowerInput.includes('who is my best friend')) {
+                const bestFriend = [...appState.friends].sort((a, b) => calculateSimilarity(b) - calculateSimilarity(a))[0];
+                const similarity = calculateSimilarity(bestFriend);
+                return `The friend with the highest match is <strong>${bestFriend.name}</strong> with a score of ${similarity}.`;
+            }
+            if (lowerInput.includes('how many messages')) {
+                return `You have sent or received <strong>${appState.messages.length}</strong> messages.`;
+            }
+
+            // --- Actionable Commands ---
+            if (lowerInput.includes('open events page') || lowerInput.includes('show events')) {
+                navigateTo('events');
+                return `Okay, I have opened the <strong>Events</strong> page for you.`;
+            }
+            if (lowerInput.includes('open profile')) {
+                navigateTo('profile');
+                return `Okay, I have opened the <strong>Profile</strong> page for you.`;
+            }
+            if (lowerInput.includes('open friends')) {
+                navigateTo('friends');
+                return `Okay, I have opened the <strong>Friends</strong> page for you.`;
+            }
+            if (lowerInput.includes('find events about')) {
+                const hobby = lowerInput.split('find events about')[1].trim();
+                navigateTo('events');
+                document.getElementById('filter-hobby').value = hobby;
+                renderEvents();
+                return `I have opened the Events page and applied a filter for the hobby: <strong>${hobby}</strong>.`;
+            }
+            if (lowerInput.includes('add') && lowerInput.includes('as a friend')) {
+                const name = lowerInput.split('add')[1].split('as a friend')[0].trim();
+                const friend = findFriendByName(name);
+                if (friend) {
+                    handleFriendAction(friend.id, 'add');
+                    return `Friend request has been sent to <strong>${friend.name}</strong>.`;
+                }
+                return `Sorry, I couldn't find a friend with the name "${name}".`;
+            }
+            if (lowerInput.includes('change theme to dark')) {
+                if (document.documentElement.getAttribute('data-theme') === 'dark') return 'The theme is already dark.';
+                toggleTheme();
+                return `The theme has been changed to <strong>dark</strong>.`;
+            }
+            if (lowerInput.includes('change theme to light')) {
+                if (document.documentElement.getAttribute('data-theme') === 'light') return 'The theme is already light.';
+                toggleTheme();
+                return `The theme has been changed to <strong>light</strong>.`;
+            }
+            if (lowerInput.includes('open database settings')) {
+                navigateTo('profile');
+                // Scroll to the data management card
+                setTimeout(() => {
+                    document.querySelector('.data-management-actions').scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+                return `I have opened the Profile page and scrolled to the <strong>Database Management</strong> section.`;
+            }
+
+            // --- Technical Questions ---
+            if (lowerInput.includes('how is my data stored')) {
+                return `Your data (profile, friends, messages) is stored directly in your <strong>browser</strong> using a technology called <strong>localStorage</strong>. This means the data is saved on your current device and is not uploaded to any server, protecting your privacy.`;
+            }
+            if (lowerInput.includes('backup data') || lowerInput.includes('export data')) {
+                return `To backup your data, go to the <strong>Profile</strong> page and scroll down to the <strong>Database Management</strong> section. Click the <strong>"Export Data"</strong> button to download all your data as a JSON file.`;
+            }
+            if (lowerInput.includes('what is reset database')) {
+                return `The <strong>"Reset Database"</strong> feature will delete ALL the data you've created (profile, friends, messages, AI chat history) and restore SocialHub to its initial state, as if it were the first time you opened it. <strong>Use with caution!</strong>`;
+            }
+            if (lowerInput.includes('is my data safe')) {
+                return `Yes, your data is safe on your own device. Since there is no server involved, there is no risk of data leaking to the internet. However, if you clear your browser cache or use a different device, your data will be lost. That's why the <strong>Export Data</strong> feature is so important.`;
+            }
+
+            // --- Help ---
+            if (lowerInput.includes('help')) {
+                return `I can help you with:<br>
+                <strong>General Info:</strong> "what is this", "what features".<br>
+                <strong>Your Data:</strong> "who am i", "how many friends do i have".<br>
+                <strong>Actions:</strong> "open events page", "find events about technology", "add Alice as a friend", "change theme to dark".<br>
+                <strong>Technical:</strong> "how is my data stored?", "how to backup data".<br>
+                Just try asking!`;
+            }
+
+            // Fallback
+            return `Sorry, I didn't understand the command "${input}". Try asking "help" to see a list of commands I can respond to, or ask a question about SocialHub's features.`;
+        }
+    </script>
+</body>
+</html>
