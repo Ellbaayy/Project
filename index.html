@@ -250,7 +250,7 @@
 
         /* --- RESPONSIVE MEDIA QUERIES --- */
         
-        /* Small Tablets and Phablets (Tablets in Portrait / Large Phones) */
+        /* Small Tablets and Phablets */
         @media (max-width: 900px) {
             .sidebar { width: 70px; }
             .nav-item { width: 44px; height: 44px; } /* Larger touch target */
@@ -278,12 +278,11 @@
             
             /* Main Content */
             .main-content { padding: 1rem; padding-bottom: 90px; order: 1; }
-            
             .header-top { flex-direction: row; align-items: center; }
             
             /* Grids adapt to screen width */
             .grid-3 { grid-template-columns: 1fr; } 
-            /* On larger phones (e.g., iPhone 14 Pro Max), allow 2 columns if space permits */
+            /* On larger phones, allow 2 columns if space permits */
             @media (min-width: 500px) {
                 .grid-3 { grid-template-columns: repeat(2, 1fr); }
             }
@@ -299,7 +298,7 @@
             .back-btn { display: flex; margin-right: 0.5rem; cursor: pointer; color: var(--text-main); }
         }
         
-        /* Very Small Mobile (iPhone SE) */
+        /* Very Small Mobile */
         @media (max-width: 375px) {
             .page-title h1 { font-size: 1.4rem; }
             .card { padding: 1rem; }
@@ -330,7 +329,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" class="auth-input" id="login-pass" placeholder="••••" required>
+                <input type="password" class="auth-input" id="login-pass" placeholder="•••••" required>
             </div>
             <button type="submit" class="btn-auth" id="btn-login-submit">Sign In</button>
         </form>
@@ -416,17 +415,9 @@
             <div class="grid-3" id="events-grid"></div>
         </section>
 
-        <!-- Friends View -->
+        <!-- Friends View (SYSTEM SETTINGS REMOVED) -->
         <section id="view-friends" class="view-section">
-            <div class="grid-3" id="friends-grid" style="margin-bottom: 2rem;"></div>
-            <div class="card">
-                <h3 style="margin-bottom: 1rem;">System Settings</h3>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Manage your local application data.</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-outline" onclick="DB.export()">Export JSON</button>
-                    <button class="btn btn-danger" onclick="DB.reset()">Reset App</button>
-                </div>
-            </div>
+            <div class="grid-3" id="friends-grid"></div>
         </section>
 
         <!-- Chat View -->
@@ -675,7 +666,7 @@ const DB = {
     },
     getDefaultData: () => ({
         friends: [
-            { id:1, name: "Alice Freeman", role: "Designer", interests: ["Art", "UI/UX"], match: 85 },
+            { id: 1, name: "Alice Freeman", role: "Designer", interests: ["Art", "UI/UX"], match: 85 },
             { id: 2, name: "Bob Smith", role: "Developer", interests: ["Coding", "Gaming"], match: 60 },
             { id: 3, name: "Charlie Kim", role: "Manager", interests: ["Business", "Tech"], match: 92 },
             { id: 4, name: "Diana Prince", role: "Writer", interests: ["Literature", "Coffee"], match: 75 }
@@ -800,7 +791,7 @@ const Profile = {
 
         Profile.saveToDatabase(AppData.currentUser);
         Utils.toast('Profile saved successfully!');
-
+        
         // Redirect to Home Page
         Router.navigate('events'); 
     },
