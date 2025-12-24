@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SocialHub | Your Profile</title>
     
     <!-- Fonts -->
@@ -51,8 +51,20 @@
 
         /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); height: 100vh; overflow: hidden; }
+        html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            height: 100vh; 
+            overflow: hidden; 
+            /* Fix for iOS Safari bounce */
+            position: fixed; width: 100%; top: 0; left: 0;
+        }
+        
         button, input, select, textarea { font-family: inherit; border: none; outline: none; }
+        /* Prevent iOS input zoom */
+        input, textarea, select { font-size: 16px !important; } 
         ul { list-style: none; }
 
         /* --- AUTHENTICATION --- */
@@ -107,6 +119,8 @@
         .sidebar {
             width: 80px; background: var(--bg-surface); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; align-items: center; padding: 1.5rem 0; z-index: 50;
+            /* Smooth shrink/expand */
+            transition: width 0.3s ease, padding 0.3s ease;
         }
         .brand-logo {
             width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary), #818cf8);
@@ -132,10 +146,12 @@
         }
         .sidebar-profile:hover { border-color: var(--primary); }
 
-        .main-content { flex: 1; padding: 2rem; overflow-y: auto; position: relative; scroll-behavior: smooth; }
+        .main-content { flex: 1; padding: 2rem; overflow-y: auto; position: relative; scroll-behavior: smooth; height: 100%; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .page-title h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem; }
-        .page-title p { color: var(--text-muted); font-size: 0.9rem; }
+        
+        /* Fluid Typography */
+        .page-title h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 700; margin-bottom: 0.25rem; line-height: 1.2; }
+        .page-title p { color: var(--text-muted); font-size: clamp(0.85rem, 2vw, 0.9rem); }
         .header-actions { display: flex; gap: 1rem; align-items: center; }
         
         .btn-icon-small {
@@ -146,7 +162,7 @@
 
         .view-section { display: none; animation: fadeIn 0.4s var(--trans-smooth); max-width: 1200px; margin: 0 auto; }
         .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); transition: var(--trans-fast); }
         .card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-light); }
@@ -168,7 +184,8 @@
         }
         .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
         
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        /* Fluid Grid System */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
         
         .badge { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; display: inline-block; }
         .badge-purple { background: var(--primary-light); color: var(--primary); }
@@ -214,8 +231,8 @@
         .chat-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); }
         .chat-header-user { display: flex; align-items: center; gap: 0.75rem; }
         .back-btn { display: none; margin-right: 0.5rem; }
-        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background: var(--bg-body); }
-        .message { display: flex; flex-direction: column; max-width: 70%; animation: popIn 0.3s ease; }
+        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background: var(--bg-body); -webkit-overflow-scrolling: touch; }
+        .message { display: flex; flex-direction: column; max-width: 85%; animation: popIn 0.3s ease; }
         .message.mine { align-self: flex-end; align-items: flex-end; }
         .message.theirs { align-self: flex-start; align-items: flex-start; }
         .msg-bubble { padding: 0.75rem 1.25rem; border-radius: 1.5rem; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word; }
@@ -227,28 +244,68 @@
         .chat-input:focus { border-color: var(--primary); background: var(--bg-surface); }
         .empty-state { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-direction: column; gap: 1rem; }
 
-        #toast-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10000; display: flex; flex-direction: column; gap: 0.75rem; }
-        .toast { background: var(--bg-surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 0.75rem; animation: slideLeft 0.3s; min-width: 300px; }
+        #toast-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10000; display: flex; flex-direction: column; gap: 0.75rem; pointer-events: none; }
+        .toast { background: var(--bg-surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 0.75rem; animation: slideLeft 0.3s; min-width: 300px; pointer-events: auto; }
         @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        
+        /* Small Tablets and Phablets (Tablets in Portrait / Large Phones) */
+        @media (max-width: 900px) {
+            .sidebar { width: 70px; }
+            .nav-item { width: 44px; height: 44px; } /* Larger touch target */
+            .main-content { padding: 1.5rem; }
+        }
+
+        /* Mobile Devices */
         @media (max-width: 768px) {
             #app { flex-direction: column; }
-            .sidebar { width: 100%; height: 70px; flex-direction: row; justify-content: space-around; padding: 0; order: 2; border-right: none; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; }
+            
+            /* Sidebar becomes Bottom Bar */
+            .sidebar { 
+                width: 100%; height: 70px; 
+                flex-direction: row; justify-content: space-around; 
+                padding: 0; 
+                order: 2; border-right: none; border-top: 1px solid var(--border); 
+                position: fixed; bottom: 0; left: 0; 
+                padding-bottom: env(safe-area-inset-bottom); /* iPhone Home Indicator */
+            }
             .brand-logo { display: none; }
             .nav-spacer { display: none; }
+            .nav-links { flex-direction: row; width: 100%; justify-content: space-around; }
+            .nav-item { margin: 0; }
             .sidebar-profile { display: none; }
+            
+            /* Main Content */
             .main-content { padding: 1rem; padding-bottom: 90px; order: 1; }
+            
             .header-top { flex-direction: row; align-items: center; }
-            .page-title h1 { font-size: 1.5rem; }
-            .grid-3 { grid-template-columns: 1fr; }
+            
+            /* Grids adapt to screen width */
+            .grid-3 { grid-template-columns: 1fr; } 
+            /* On larger phones (e.g., iPhone 14 Pro Max), allow 2 columns if space permits */
+            @media (min-width: 500px) {
+                .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            }
+
+            /* Profile */
             .profile-grid { grid-template-columns: 1fr; }
+
+            /* Chat */
             .chat-layout { height: calc(100vh - 160px); }
             .chat-contacts { width: 100%; display: flex; }
             .chat-window { width: 100%; position: absolute; top: 0; left: 0; height: 100%; z-index: 10; transform: translateX(100%); transition: transform 0.3s ease; }
             .chat-window.active { transform: translateX(0); }
             .back-btn { display: flex; margin-right: 0.5rem; cursor: pointer; color: var(--text-main); }
         }
+        
+        /* Very Small Mobile (iPhone SE) */
+        @media (max-width: 375px) {
+            .page-title h1 { font-size: 1.4rem; }
+            .card { padding: 1rem; }
+            .btn { font-size: 0.9rem; padding: 0.6rem 1rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -273,7 +330,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" class="auth-input" id="login-pass" placeholder="•••••" required>
+                <input type="password" class="auth-input" id="login-pass" placeholder="••••" required>
             </div>
             <button type="submit" class="btn-auth" id="btn-login-submit">Sign In</button>
         </form>
@@ -587,7 +644,6 @@ const Auth = {
         document.getElementById('auth-container').classList.add('hidden');
         document.getElementById('app').classList.add('active');
         
-        // Initial Renders
         Theme.init();
         Profile.init();
         Events.render();
@@ -745,7 +801,7 @@ const Profile = {
         Profile.saveToDatabase(AppData.currentUser);
         Utils.toast('Profile saved successfully!');
 
-        // Redirect to Home Page (Events)
+        // Redirect to Home Page
         Router.navigate('events'); 
     },
 
