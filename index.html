@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SocialHub | Themed Nav</title>
+    <title>SocialHub | WA Chat</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* --- CSS VARIABLES & THEME --- */
@@ -28,15 +28,14 @@
 
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-glow: 0 0 25px rgba(79, 70, 229, 0.3); /* Stronger glow */
-            --shadow-game: 0 10px 30px -10px rgba(79, 70, 229, 0.4); /* 3D Pop */
+            --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.15);
             
             --radius-md: 0.75rem;
             --radius-lg: 1rem;
             --radius-full: 9999px;
 
-            --trans-fast: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Jelly bounce */
-            --trans-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="dark"] {
@@ -47,39 +46,7 @@
             --text-muted: #94a3b8;
             --text-light: #64748b;
             --primary-light: rgba(79, 70, 229, 0.2);
-            --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.4);
-            --shadow-game: 0 10px 40px -10px rgba(79, 70, 229, 0.6);
-        }
-
-        /* --- ANIMATIONS (GAME FEEL) --- */
-        
-        /* 1. Animated Background Gradient */
-        @keyframes aurora {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 2. Floating Orbs (Background) */
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
-            50% { transform: translate(20px, -20px) rotate(180deg); opacity: 0.6; }
-            100% { transform: translate(0, 0) rotate(360deg); opacity: 0.3; }
-        }
-
-        /* 3. Bouncy Entrance */
-        @keyframes jellyIn {
-            0% { transform: scale(0) rotate(-5deg); opacity: 0; }
-            30% { transform: scale(1.1) rotate(5deg); opacity: 1; }
-            60% { transform: scale(0.95) rotate(-3deg); }
-            80% { transform: scale(1.02) rotate(1deg); }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        /* 4. 3D Tilt Hover */
-        @keyframes tiltHover {
-            0% { transform: translateY(0) rotateX(0) rotateY(0); }
-            100% { transform: translateY(-8px) rotateX(2deg) rotateY(2deg); }
+            --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.3);
         }
 
         /* --- RESET & BASE --- */
@@ -87,41 +54,20 @@
         html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg-body); 
+            background-color: var(--bg-body); 
             color: var(--text-main); 
             height: 100vh; 
             overflow: hidden; 
             position: fixed; width: 100%; top: 0; left: 0;
-            
-            /* Animated Gradient Background */
-            background: linear-gradient(-45deg, #F3F4F6, #E0E7FF, #F3F4F6, #E0E7FF);
-            background-size: 400% 400%;
-            animation: aurora 15s ease infinite;
         }
-        /* Floating Shapes (CSS Generated) */
-        body::before {
-            content: ''; position: fixed; top: -10%; right: -10%; width: 50vw; height: 50vw;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.15), transparent 70%);
-            border-radius: 50%; pointer-events: none; z-index: -1;
-            animation: floatOrb 20s infinite linear reverse;
-        }
-        body::after {
-            content: ''; position: fixed; bottom: -20%; left: -10%; width: 40vw; height: 40vw;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent 70%);
-            border-radius: 50%; pointer-events: none; z-index: -1;
-            animation: floatOrb 25s infinite linear;
-        }
-
         button, input, select, textarea { font-family: inherit; border: none; outline: none; }
-        /* Prevent iOS input zoom */
         input, textarea, select { font-size: 16px !important; } 
         ul { list-style: none; }
 
         /* --- AUTHENTICATION --- */
         #auth-container {
             position: fixed; inset: 0; z-index: 9999;
-            background: rgba(255,255,255, 0.9); /* Frosted glass */
-            backdrop-filter: blur(10px);
+            background: var(--bg-body);
             display: flex; align-items: center; justify-content: center;
             padding: 1rem; transition: opacity 0.5s ease, visibility 0.5s;
         }
@@ -131,159 +77,95 @@
             background: var(--bg-surface);
             width: 100%; max-width: 420px;
             border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-game); /* Deep shadow */
+            box-shadow: var(--shadow-lg);
             border: 1px solid var(--border);
             padding: 2.5rem; text-align: center;
-            animation: jellyIn 0.6s ease;
         }
 
         .auth-logo {
             width: 64px; height: 64px;
-            background: linear-gradient(135deg, var(--primary), #ec4899); /* Fun gradient */
+            background: linear-gradient(135deg, var(--primary), #818cf8);
             border-radius: var(--radius-lg);
             display: flex; align-items: center; justify-content: center;
             color: white; font-size: 2rem; margin: 0 auto 1.5rem;
             box-shadow: var(--shadow-glow);
-            transition: transform 0.3s;
-            cursor: pointer;
         }
-        .auth-logo:hover { transform: rotate(15deg) scale(1.1); }
 
-        .auth-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(to right, var(--primary), #ec4899); -webkit-background-clip: text; color: transparent; } /* Gradient Text */
+        .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
         .auth-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
 
         .auth-tabs { display: flex; background: var(--bg-body); padding: 0.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; }
         .auth-tab { flex: 1; padding: 0.5rem; border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: var(--trans-fast); }
-        .auth-tab.active { background: var(--bg-surface); color: var(--primary); box-shadow: var(--shadow-sm); animation: jellyIn 0.3s; }
+        .auth-tab.active { background: var(--bg-surface); color: var(--primary); box-shadow: var(--shadow-sm); }
 
         .form-group { margin-bottom: 1rem; text-align: left; }
-        .form-label { display: block; margin-bottom: 0.4rem; font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
-        .auth-input { width: 100%; padding: 0.8rem 1rem; background: var(--bg-body); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-main); transition: var(--trans-fast); font-weight: 500; }
-        .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); transform: scale(1.02); }
+        .form-label { display: block; margin-bottom: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+        .auth-input { width: 100%; padding: 0.8rem 1rem; background: var(--bg-body); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-main); transition: var(--trans-fast); }
+        .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 
-        .btn-auth { width: 100%; padding: 0.85rem; background: linear-gradient(135deg, var(--primary), #4338ca); color: white; border-radius: var(--radius-md); font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--trans-fast); margin-top: 1rem; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
-        .btn-auth:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3); } /* Jelly press */
-        .btn-auth:hover { background: linear-gradient(135deg, var(--primary-hover), var(--primary)); transform: translateY(-2px); }
+        .btn-auth { width: 100%; padding: 0.85rem; background: var(--primary); color: white; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; cursor: pointer; transition: var(--trans-fast); margin-top: 1rem; }
+        .btn-auth:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
         .switch-auth { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted); }
-        .switch-auth a { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; text-decoration: underline; text-decoration-style: wavy; }
+        .switch-auth a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
 
         /* --- MAIN APP --- */
         #app { display: none; width: 100%; height: 100%; position: relative; }
         #app.active { display: flex; }
 
-        /* --- UPDATED SIDEBAR (THEMED) --- */
         .sidebar {
-            width: 80px;
-            /* THEMED BACKGROUND: Solid Brand Color */
-            background: var(--primary);
-            
-            /* Gradient overlay for depth */
-            background-image: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.05) 100%);
-            
+            width: 80px; background: var(--bg-surface); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; align-items: center; padding: 1.5rem 0; z-index: 50;
             transition: width 0.3s ease, padding 0.3s ease;
-            /* Removed border, added shadow for cohesion */
-            border-right: none;
-            box-shadow: 2px 0 10px rgba(79, 70, 229, 0.2);
         }
         .brand-logo {
-            width: 48px; height: 48px; background: rgba(255,255,255,0.2); /* Translucent white */
-            border: 2px solid rgba(255,255,255,0.3);
+            width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary), #818cf8);
             border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.5rem; margin-bottom: 2.5rem; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-            animation: jellyIn 1s ease;
+            color: white; font-size: 1.5rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-glow); cursor: pointer;
         }
-        .brand-logo:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
-        
         .nav-links { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
         .nav-item {
             display: flex; align-items: center; justify-content: center; height: 48px; width: 48px;
-            margin: 0 auto; border-radius: var(--radius-md); 
-            /* THEMED TEXT: Muted White */
-            color: rgba(255, 255, 255, 0.7); 
-            cursor: pointer;
+            margin: 0 auto; border-radius: var(--radius-md); color: var(--text-muted); cursor: pointer;
             transition: all var(--trans-fast);
         }
         .nav-item svg { width: 24px; height: 24px; stroke-width: 2; }
-        
-        /* THEMED HOVER & ACTIVE STATES */
-        .nav-item:hover { 
-            background: rgba(255, 255, 255, 0.15); 
-            color: #fff; 
-            transform: translateY(-3px); 
-        }
-        .nav-item:hover svg { transform: translateY(-3px) scale(1.1); }
-        
-        .nav-item.active { 
-            background: rgba(255, 255, 255, 0.2); 
-            color: #fff; 
-            box-shadow: 0 0 10px rgba(255,255,255,0.15);
-        }
-        
+        .nav-item:hover { background: var(--bg-body); color: var(--primary); }
+        .nav-item.active { background: var(--primary-light); color: var(--primary); }
+        [data-theme="dark"] .nav-item.active { background: rgba(79, 70, 229, 0.2); }
         .nav-spacer { flex-grow: 1; }
 
-        /* Profile Avatar in Sidebar */
         .sidebar-profile {
-            width: 40px; height: 40px; border-radius: 50%; object-fit: cover; 
-            border: 2px solid rgba(255, 255, 255, 0.3); /* White border */
+            width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border);
             margin-top: 1rem; cursor: pointer; transition: var(--trans-fast);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .sidebar-profile:hover { border-color: #fff; transform: scale(1.1) rotate(5deg); }
+        .sidebar-profile:hover { border-color: var(--primary); }
 
         .main-content { flex: 1; padding: 2rem; overflow-y: auto; position: relative; scroll-behavior: smooth; height: 100%; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
         
-        /* Fluid Typography with Gradient */
-        .page-title h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 800; margin-bottom: 0.25rem; line-height: 1.2; background: linear-gradient(to right, var(--text-main), var(--primary)); -webkit-background-clip: text; color: transparent; }
-        .page-title p { color: var(--text-muted); font-size: clamp(0.85rem, 2vw, 0.9rem); letter-spacing: 0.5px; }
+        .page-title h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 700; margin-bottom: 0.25rem; line-height: 1.2; }
+        .page-title p { color: var(--text-muted); font-size: clamp(0.85rem, 2vw, 0.9rem); }
         .header-actions { display: flex; gap: 1rem; align-items: center; }
         
         .btn-icon-small {
             padding: 0.5rem; border-radius: 50%; border: 1px solid var(--border);
             background: var(--bg-surface); cursor: pointer; color: var(--text-main); transition: var(--trans-fast);
         }
-        .btn-icon-small:hover { background: var(--bg-body); color: var(--primary); transform: rotate(90deg); }
+        .btn-icon-small:hover { background: var(--bg-body); color: var(--primary); }
 
         .view-section { display: none; animation: fadeIn 0.4s var(--trans-smooth); max-width: 1200px; margin: 0 auto; }
         .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { 
-            background: var(--bg-surface); 
-            border: 1px solid var(--border); 
-            border-radius: var(--radius-lg); 
-            padding: 1.5rem; 
-            box-shadow: var(--shadow-sm); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth 3D transition */
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Hover 3D Effect for Cards */
-        .card:hover { 
-            transform: translateY(-8px) rotateX(2deg); 
-            box-shadow: var(--shadow-game); 
-            border-color: var(--primary-light); 
-        }
-        .card::before {
-            content: '';
-            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        .card:hover::before { left: 100%; }
-
+        .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); transition: var(--trans-fast); }
+        .card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-light); }
         .btn {
             display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: var(--trans-fast); gap: 0.5rem; box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: var(--trans-fast); gap: 0.5rem;
         }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #4338ca); color: white; border: none; }
-        .btn-primary:hover { box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-primary:active { transform: scale(0.95); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         .btn-outline:hover { background: var(--bg-body); }
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
@@ -298,19 +180,10 @@
         
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
         
-        .badge { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-purple { background: var(--primary-light); color: var(--primary); box-shadow: 0 2px 5px rgba(79, 70, 229, 0.2); }
+        .badge { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; display: inline-block; }
+        .badge-purple { background: var(--primary-light); color: var(--primary); }
 
-        .event-card-img { 
-            height: 160px; background: var(--bg-body); 
-            border-radius: var(--radius-md); 
-            margin-bottom: 1rem; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 3rem; 
-            transition: transform 0.3s;
-        }
-        .card:hover .event-card-img { transform: scale(1.1) rotate(5deg); } /* Icon dance */
-        
+        .event-card-img { height: 160px; background: var(--bg-body); border-radius: var(--radius-md); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
         .filter-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
 
         /* --- PROFILE STYLES --- */
@@ -320,10 +193,7 @@
         }
         .profile-avatar-container {
             position: relative; width: 120px; height: 120px; margin-bottom: 1.5rem;
-            transition: transform 0.3s;
         }
-        .card:hover .profile-avatar-container { transform: rotate(360deg); }
-        
         .profile-avatar {
             width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
             border: 4px solid var(--bg-surface); box-shadow: var(--shadow-md);
@@ -334,24 +204,24 @@
             width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             border: 3px solid var(--bg-surface); cursor: pointer;
-            transition: transform 0.2s; box-shadow: var(--shadow-glow);
+            transition: transform 0.2s;
         }
-        .upload-overlay:hover { transform: scale(1.2) rotate(-10deg); }
+        .upload-overlay:hover { transform: scale(1.1); }
         
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         
-        /* --- CHAT STYLES (WA STYLE) --- */
+        /* --- CHAT STYLES (ADVANCED WA) --- */
         .chat-layout { display: flex; height: 600px; border: 1px solid var(--border); border-radius: 0; overflow: hidden; background: var(--bg-surface); box-shadow: var(--shadow-sm); }
         .chat-contacts { width: 320px; border-right: 1px solid var(--border); background: var(--bg-body); overflow-y: auto; display: flex; flex-direction: column; }
         .contact-item { padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: var(--trans-fast); border-bottom: 1px solid var(--border); }
-        .contact-item:hover { background: rgba(0,0,0,0.03); transform: translateX(5px); }
+        .contact-item:hover { background: rgba(0,0,0,0.03); }
         .contact-item.active { background: var(--primary-light); border-left: 4px solid var(--primary); }
         .contact-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #ddd; }
         .contact-info h4 { font-size: 0.95rem; margin-bottom: 0.1rem; }
         .contact-info p { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 
         .chat-window { flex: 1; display: flex; flex-direction: column; background: var(--bg-body); position: relative; }
-        .chat-header { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); }
+        .chat-header { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); }
         .chat-header-user { display: flex; align-items: center; gap: 0.75rem; }
         .back-btn { display: none; margin-right: 0.5rem; }
         .chat-messages { 
@@ -362,23 +232,25 @@
             flex-direction: column; 
             gap: 4px; 
             background: var(--bg-body); 
-            -webkit-overflow-scrolling: touch; 
-            background-image: radial-gradient(#d1d5db 1px, transparent 1px); 
+            -webkit-overflow-scrolling: touch;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px); 
             background-size: 20px 20px;
         }
         
-        .message { display: flex; flex-direction: column; max-width: 80%; animation: jellyIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); margin-bottom: 2px; }
+        /* Bubbles */
+        .message { display: flex; flex-direction: column; max-width: 80%; animation: popIn 0.2s ease; margin-bottom: 2px; }
         .message.mine { align-self: flex-end; align-items: flex-end; }
         .message.theirs { align-self: flex-start; align-items: flex-start; }
         
         .msg-bubble { 
             padding: 6px 10px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; 
             position: relative;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
             border-radius: 8px;
             background: var(--bg-surface);
         }
         
+        /* Text Style */
         .message.is-text .msg-bubble {
             color: var(--text-main);
         }
@@ -393,8 +265,15 @@
             border-top-right-radius: 8px; border-bottom-right-radius: 8px;
         }
 
+        /* Media Bubbles */
         .message.is-media .msg-bubble {
-            padding: 4px; background: transparent; box-shadow: none; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; max-width: 300px; background: var(--bg-surface);
+            padding: 4px;
+            background: transparent;
+            box-shadow: none;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            max-width: 300px;
+            background: var(--bg-surface);
         }
         .message.mine.is-media .msg-bubble { border: 2px solid var(--primary); }
         
@@ -407,24 +286,16 @@
 
         .msg-time { font-size: 0.65rem; color: var(--text-light); margin-top: 2px; margin-right: 5px; align-self: flex-end; }
         
+        /* Recording UI */
         .chat-input-area { 
             padding: 0.6rem 0.8rem; 
             background: var(--bg-surface); 
             border-top: 1px solid var(--border); 
             display: flex; 
-            gap: 0.75rem; 
+            gap: 0.5rem; 
             align-items: center; 
-            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
-        .chat-input { 
-            flex: 1; 
-            background: var(--bg-body); 
-            padding: 0.8rem 1rem; 
-            border-radius: 8px; 
-            border: none; 
-            font-size: 0.95rem;
-        }
-        .chat-input:focus { box-shadow: 0 0 0 2px var(--primary-light); }
         
         .chat-actions {
             display: flex; gap: 0.25rem;
@@ -445,6 +316,40 @@
         }
         .action-btn:hover { background: #e5e7eb; }
 
+        .chat-input { 
+            flex: 1; 
+            background: var(--bg-body); 
+            padding: 0.8rem 1rem; 
+            border-radius: 8px; 
+            border: none; 
+            font-size: 0.95rem;
+        }
+        .chat-input:focus { box-shadow: 0 0 0 2px var(--primary-light); }
+        
+        /* WA Buttons */
+        .chat-icon-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+        .chat-icon-btn:hover { color: var(--primary); background: rgba(79, 70, 229, 0.05); }
+        .chat-icon-btn.active { color: var(--primary); }
+        
+        .send-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+        .send-btn:hover { background: var(--primary-hover); }
+
+        /* Recording Bar */
         .recording-ui {
             display: none;
             flex: 1;
@@ -471,37 +376,13 @@
             font-weight: 600;
         }
 
-        .chat-icon-btn {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-        .chat-icon-btn:hover { color: var(--primary); background: rgba(79, 70, 229, 0.05); }
-        .chat-icon-btn.active { color: var(--primary); }
-        
-        .send-btn {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-        .send-btn:hover { background: var(--primary-hover); transform: rotate(10deg); }
-
         .empty-state { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-direction: column; gap: 1rem; }
-        .empty-state div { animation: floatOrb 3s infinite ease-in-out; }
 
         #toast-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10000; display: flex; flex-direction: column; gap: 0.75rem; pointer-events: none; }
-        .toast { background: var(--bg-surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-game); border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 0.75rem; animation: jellyIn 0.3s; min-width: 300px; pointer-events: auto; font-weight: 600; }
+        .toast { background: var(--bg-surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 0.75rem; animation: slideLeft 0.3s; min-width: 300px; pointer-events: auto; }
         @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
         /* --- RESPONSIVE --- */
-        
         @media (max-width: 900px) {
             .sidebar { width: 70px; }
             .nav-item { width: 44px; height: 44px; }
@@ -513,7 +394,7 @@
             .sidebar { 
                 width: 100%; height: 70px; 
                 flex-direction: row; justify-content: space-around; padding: 0; 
-                order: 2; border-right: none; border-top: none; border-bottom: 1px solid rgba(255,255,255,0.2); /* Subtle top border */
+                order: 2; border-right: none; border-top: 1px solid var(--border); 
                 position: fixed; bottom: 0; left: 0; 
                 padding-bottom: env(safe-area-inset-bottom);
             }
@@ -531,9 +412,7 @@
             .chat-contacts { width: 100%; display: flex; }
             .chat-window { width: 100%; position: absolute; top: 0; left: 0; height: 100%; z-index: 10; transform: translateX(100%); transition: transform 0.3s ease; }
             .chat-window.active { transform: translateX(0); }
-            .back-btn { display: flex; margin-right: 0.5rem; cursor: pointer; color: #fff; }
-            /* Active Nav Item on Mobile needs to stand out more */
-            .nav-item.active { background: rgba(255,255,255,0.25); border-radius: 50%; }
+            .back-btn { display: flex; margin-right: 0.5rem; cursor: pointer; color: var(--text-main); }
         }
         
         @media (max-width: 375px) {
@@ -569,7 +448,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" class="auth-input" id="login-pass" placeholder="•••" required>
+                <input type="password" class="auth-input" id="login-pass" placeholder="••••" required>
             </div>
             <button type="submit" class="btn-auth" id="btn-login-submit">Sign In</button>
         </form>
@@ -600,7 +479,6 @@
 
 <!-- 2. MAIN APP LAYER -->
 <div id="app">
-    <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand-logo">SH</div>
         <nav class="nav-links">
@@ -619,12 +497,11 @@
         </nav>
         <div class="nav-spacer"></div>
         <img id="sidebar-avatar" src="" class="sidebar-profile" onclick="Router.navigate('profile')" alt="Me">
-        <div class="nav-item" onclick="Auth.logout()" title="Logout" style="color: #fff;">
+        <div class="nav-item" onclick="Auth.logout()" title="Logout" style="color: var(--danger);">
              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
         <header class="header-top">
             <div class="page-title" id="page-header">
@@ -684,32 +561,36 @@
                         </div>
                         <div class="chat-messages" id="chat-messages-area"></div>
                         <div class="chat-input-area">
+                            <!-- Hidden File Inputs -->
                             <input type="file" id="input-image" accept="image/*" hidden onchange="Chat.handleFile(event, 'image')">
                             <input type="file" id="input-video" accept="video/*" hidden onchange="Chat.handleFile(event, 'video')">
                             <input type="file" id="input-audio" accept="audio/*" hidden onchange="Chat.handleFile(event, 'audio')">
 
+                            <!-- Plus Button for Attachments -->
                             <div class="chat-actions" id="chat-attachment-menu">
                                 <div class="action-btn" onclick="document.getElementById('input-image').click()" title="Gallery">
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L12 15.172l4.586-4.586a2 2 0 012.828 0L20 14a2 2 0 012 2V8a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm-9 3V9a2 2 0 012-2H5a2 2 0 00-2-2V8a2 2 0 00-2-2h8a2 2 0 012 2v1zm0-4l1.586 1.586a2 2 0 012.828 0L11 9.586V6a2 2 0 012-2H5a2 2 0 00-2-2V8a2 2 0 00-2-2h8a2 2 0 012 2v1z"/></svg>
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L12 15.172l4.586-4.586a2 2 0 012.828 0L20 14a2 2 0 002-2V8a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm-9 3V9a2 2 0 012-2H5a2 2 0 012-2V8a2 2 0 00-2-2h8a2 2 0 012 2v1zm0-4l1.586 1.586a2 2 0 012.828 0L11 9.586V6a2 2 0 012-2H5a2 2 0 00-2 2v4a2 2 0 002 2h8a2 2 0 002 2v-1z"/></svg>
                                 </div>
                                 <div class="action-btn" onclick="document.getElementById('input-video').click()" title="Video">
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2-2v4a2 2 0 002 2h8a2 2 0 002 2v-1zm0-4l1.586 1.586a2 2 0 012.828 0L11 9.586V6a2 2 0 012-2H5a2 2 0 00-2-2V8a2 2 0 00-2-2h8a2 2 0 012 2v-1z"/></svg>
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2zm8-12V5a2 2 0 10-4 0v11h4a2 2 0 002-2z"/></svg>
                                 </div>
                             </div>
 
+                            <!-- Recording UI (Hidden initially) -->
                             <div id="recording-ui" class="recording-ui">
                                 <span>● Recording...</span>
                                 <span class="cancel-record" onclick="Chat.stopRecording()">Cancel</span>
                             </div>
 
+                            <!-- Main Inputs -->
                             <button class="chat-icon-btn" id="btn-plus" onclick="Chat.toggleMenu()">
-                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4m16 8l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4m16 8l-4-4m4 4H4" /></svg>
                             </button>
 
                             <input type="text" class="chat-input" id="chat-input-field" placeholder="Type a message..." onkeypress="if(event.key==='Enter') Chat.sendMessage()">
 
                             <button class="chat-icon-btn" id="btn-mic" onclick="Chat.startRecording()">
-                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             </button>
 
                             <button class="send-btn" id="btn-send" onclick="Chat.sendMessage()">
@@ -922,7 +803,7 @@ const Auth = {
 
 // --- 3. DATABASE ---
 const DB = {
-    KEY: 'socialhub_v8_data',
+    KEY: 'socialhub_v7_data',
     save: (data) => localStorage.setItem(DB.KEY, JSON.stringify(data)),
     load: () => {
         const data = localStorage.getItem(DB.KEY);
@@ -1055,7 +936,6 @@ const Profile = {
 
         Profile.saveToDatabase(AppData.currentUser);
         Utils.toast('Profile saved successfully!');
-
         Router.navigate('events'); 
     },
 
@@ -1121,9 +1001,10 @@ const Chat = {
     activeFriendId: null,
     mediaRecorder: null,
     audioChunks: [],
-    attachedFile: null,
+    attachedFile: null, // { type, content }
 
     init: () => { 
+        // Close menu if clicked outside
         document.addEventListener('click', (e) => {
             const menu = document.getElementById('chat-attachment-menu');
             if (!menu.contains(e.target) && !e.target.closest('#btn-plus')) {
@@ -1133,6 +1014,7 @@ const Chat = {
         Chat.renderContacts(); 
     },
     
+    // Toggle Attachment Menu
     toggleMenu: () => {
         const menu = document.getElementById('chat-attachment-menu');
         menu.classList.toggle('open');
@@ -1142,7 +1024,7 @@ const Chat = {
         const file = e.target.files[0];
         if(!file) return;
 
-        if(file.size > 5000000) { 
+        if(file.size > 5000000) { // 5MB Limit check
             Utils.toast('File too large for local storage', 'error');
             e.target.value = '';
             return;
@@ -1152,6 +1034,8 @@ const Chat = {
         reader.onload = (event) => {
             Chat.attachedFile = { type, content: event.target.result };
             document.getElementById('chat-attachment-menu').classList.remove('open');
+            
+            // Auto send file like WA
             Chat.sendMessage();
         };
         reader.readAsDataURL(file);
@@ -1172,6 +1056,8 @@ const Chat = {
                 Chat.attachedFile = { type: 'audio', content: audioUrl };
                 Chat.stopRecordingUI();
                 Chat.sendMessage();
+                
+                // Stop all tracks to release mic
                 stream.getTracks().forEach(track => track.stop());
             };
 
@@ -1209,6 +1095,7 @@ const Chat = {
         const list = document.getElementById('chat-contacts-list');
         list.innerHTML = AppData.friends.map(f => {
             const conv = AppData.conversations[f.id] || [];
+            // Get last text, if last is media show generic icon
             const lastMsg = conv.length > 0 
                 ? (conv[conv.length-1].type === 'text' ? conv[conv.length-1].content : '📎 Media') 
                 : 'No messages yet';
@@ -1236,7 +1123,6 @@ const Chat = {
         Chat.renderContacts();
         Chat.renderMessages();
     },
-
     closeMobile: () => {
         document.getElementById('active-chat-window').classList.remove('active');
         setTimeout(() => {
@@ -1282,12 +1168,14 @@ const Chat = {
         const input = document.getElementById('chat-input-field');
         const text = input.value.trim();
 
+        // Determine content type (File or Text)
         let msgData = { type: 'text', content: text };
 
         if (Chat.attachedFile) {
             msgData = Chat.attachedFile;
-            Chat.attachedFile = null; 
+            Chat.attachedFile = null; // Reset
         } else if (!text) {
+            // If typing and no file, don't send (unless it's a file attached above)
             return;
         }
 
@@ -1304,15 +1192,25 @@ const Chat = {
         Chat.renderMessages();
         Chat.renderContacts();
 
+        // Simulate Reply
         setTimeout(() => {
             if(Chat.activeFriendId) {
-                const replyContent = `That's interesting! Tell me more about "${text}"`;
+                const replyTypes = ['text', 'text', 'text', 'image', 'audio'];
+                const randomType = replyTypes[Math.floor(Math.random() * replyTypes.length)];
+                
+                let replyContent = `That's interesting! Tell me more about "${text}"`;
+                if(randomType !== 'text') replyContent = `Check this out! (Media Demo)`;
+
+                // Mocking media for reply
+                if(randomType === 'image') replyContent = 'https://picsum.photos/seed/tech/200/200'; // Fake URL
+                
                 AppData.conversations[Chat.activeFriendId].push({ 
                     sender: 'them', 
-                    type: 'text', 
+                    type: randomType, 
                     content: replyContent,
                     timestamp: Date.now() 
                 });
+                
                 DB.save(AppData);
                 Chat.renderMessages();
                 Chat.renderContacts();
