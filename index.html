@@ -501,23 +501,23 @@
 <div id="access-point">
     <div class="access-container">
         <div class="access-logo">SH</div>
-        <h1 class="access-title">Selamat Datang</h1>
-        <p class="access-subtitle">Pilih peran Anda untuk melanjutkan</p>
+        <h1 class="access-title">Welcome</h1>
+        <p class="access-subtitle">select your role to continue</p>
 
         <div class="access-options">
             <!-- USER CARD -->
             <div class="access-card" onclick="Auth.openUserAuth()">
                 <div class="card-icon">👥</div>
-                <div class="card-title">Sebagai User</div>
-                <p class="card-desc">Akses fitur Events, Chat, dan Profil standar.</p>
+                <div class="card-title">as a user</div>
+                <p class="card-desc">Access standard Events, Chat, and Profile features.</p>
                 <div class="access-deco"></div>
             </div>
 
             <!-- ADMIN CARD -->
             <div class="access-card admin" onclick="Auth.openAdminAuth()">
                 <div class="card-icon">🛡️</div>
-                <div class="card-title">Sebagai Admin</div>
-                <p class="card-desc">Akses kelola database dan sistem.</p>
+                <div class="card-title">As Admin</div>
+                <p class="card-desc">Access to manage databases and systems.</p>
                 <div class="access-deco"></div>
             </div>
         </div>
@@ -529,8 +529,8 @@
     <div class="auth-card">
         <button class="back-btn" onclick="Auth.returnToAccessPoint()">←</button>
         <div class="auth-logo">SH</div>
-        <h2 class="auth-title" id="auth-heading">Login User</h2>
-        <p class="auth-subtitle" id="auth-subheading">Silakan login atau daftar akun baru.</p>
+        <h2 class="auth-title" id="auth-heading">User Login</h2>
+        <p class="auth-subtitle" id="auth-subheading">Please login or register a new account.</p>
 
         <div class="auth-tabs" id="auth-tabs-container">
             <div class="auth-tab active" onclick="Auth.switchTab('login')">Login</div>
@@ -581,14 +581,14 @@
         <button class="close-modal-btn" onclick="Auth.closeResetModal()">×</button>
         <div class="auth-logo" style="background: #ef4444;">🔑</div>
         <h2 class="auth-title" style="margin-top: 1rem;">Reset Password</h2>
-        <p class="auth-subtitle">Masukkan email/phone Anda untuk menerima instruksi reset.</p>
+        <p class="auth-subtitle">Enter your email/phone to receive reset instructions.</p>
         
         <form onsubmit="Auth.handleReset(event)">
             <div class="form-group">
                 <label class="form-label">Email or Phone</label>
                 <input type="text" class="auth-input" id="reset-id" placeholder="e.g. user@mail.com" required>
             </div>
-            <button type="submit" class="btn-auth" id="btn-reset-submit" style="background: var(--primary);">Kirim Link Reset</button>
+            <button type="submit" class="btn-auth" id="btn-reset-submit" style="background: var(--primary);">Send Reset Link</button>
         </form>
     </div>
 </div>
@@ -897,7 +897,7 @@ const Auth = {
             registerForm.style.display = 'none';
             switchAuth.style.display = 'none';
             title.textContent = 'Admin Login';
-            sub.textContent = 'Masuk dengan akun admin untuk mengelola database.';
+            sub.textContent = 'Log in with an admin account to manage the database.';
             loginForm.style.display = 'block';
             // Pre-fill hint (Optional)
             document.getElementById('login-id').placeholder = 'admin@gmail.com';
@@ -906,7 +906,7 @@ const Auth = {
             tabsContainer.style.display = 'flex';
             switchAuth.style.display = 'block';
             title.textContent = 'Login User';
-            sub.textContent = 'Silakan login atau daftar akun baru.';
+            sub.textContent = 'Please login or register a new account.';
             loginForm.style.display = 'block'; // Starts with Login
             Auth.switchTab('login'); // Reset tabs
         }
@@ -925,8 +925,8 @@ const Auth = {
             regForm.style.display = 'none';
             tabs[0].classList.add('active');
             tabs[1].classList.remove('active');
-            heading.textContent = 'Login User';
-            subheading.textContent = 'Silakan login atau daftar akun baru.';
+            heading.textContent = 'User Login';
+            subheading.textContent = 'Please login or register a new account.';
             switchLink.textContent = 'Sign up';
         } else {
             loginForm.style.display = 'none';
@@ -934,7 +934,7 @@ const Auth = {
             tabs[0].classList.remove('active');
             tabs[1].classList.add('active');
             heading.textContent = 'Register User';
-            subheading.textContent = 'Buat akun baru untuk menikmati fitur.';
+            subheading.textContent = 'Create a new account to enjoy the features.';
             switchLink.textContent = 'Sign in';
         }
     },
