@@ -251,7 +251,6 @@
         .nav-item:hover { background: var(--bg-body); color: var(--primary); }
         .nav-item.active { background: var(--primary-light); color: var(--primary); }
         
-        /* Admin Specific Nav Item */
         .nav-item.admin-active {
             background: var(--admin-light);
             color: var(--admin-color);
@@ -299,9 +298,6 @@
         .btn-outline:hover { background: var(--bg-body); }
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
         .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
-        .btn-admin { background: var(--admin-color); color: white; }
-        .btn-admin:hover { background: #c2410c; }
-
         .btn-icon { padding: 0.5rem; border-radius: 50%; }
 
         .form-input {
@@ -317,21 +313,6 @@
 
         .event-card-img { height: 160px; background: var(--bg-body); border-radius: var(--radius-md); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
         .filter-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-
-        /* --- ADMIN DASHBOARD STYLES --- */
-        .admin-dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .db-stat-card {
-            background: var(--bg-body);
-            padding: 1.5rem;
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        .db-stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0; }
-        .db-stat-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- PROFILE STYLES --- */
         .profile-header {
@@ -393,9 +374,12 @@
             position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.1); border-radius: 8px; background: var(--bg-surface);
             color: var(--text-main);
         }
-        .message.is-text .msg-bubble { color: var(--text-main); }
+        
+        .message.is-text .msg-bubble {
+            color: var(--text-main);
+        }
         .message.mine.is-text .msg-bubble { 
-            background: var(--primary); color: white;
+            background: var(--primary); color: white; 
             border-top-right-radius: 0; border-bottom-right-radius: 0;
             border-top-left-radius: 8px; border-bottom-left-radius: 8px;
         }
@@ -406,11 +390,19 @@
         }
 
         .message.is-media .msg-bubble {
-            padding: 4px; background: transparent; box-shadow: none; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; max-width: 300px; background: var(--bg-surface);
+            padding: 4px;
+            background: transparent;
+            box-shadow: none;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            max-width: 300px;
+            background: var(--bg-surface);
         }
         .message.mine.is-media .msg-bubble { border: 2px solid var(--primary); }
         
-        .msg-content img, .msg-content video, .msg-content audio { max-width: 100%; border-radius: 6px; display: block; }
+        .msg-content img, .msg-content video, .msg-content audio {
+            max-width: 100%; border-radius: 6px; display: block;
+        }
         .msg-content img { max-height: 250px; object-fit: cover; }
         .msg-content video { max-height: 250px; }
         .msg-content audio { width: 100%; }
@@ -420,30 +412,59 @@
         .chat-input-area { 
             padding: 0.6rem 0.8rem; background: var(--bg-surface); border-top: 1px solid var(--border); 
             display: flex; gap: 0.75rem; align-items: center; 
-            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05); position: relative;
+            position: relative; box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-        .chat-actions {
-            display: none; gap: 0.25rem; position: absolute; bottom: 100%; left: 1rem;
-            margin-bottom: 0.5rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 1rem; padding: 0.25rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-direction: row;
-        }
-        .chat-actions.open { display: flex; }
-        .action-btn {
-            width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: #f0f2f5; cursor: pointer; transition: var(--trans-fast);
-        }
-        .action-btn:hover { background: #e5e7eb; }
-
         .chat-input { 
             flex: 1; background: var(--bg-body); padding: 0.8rem 1rem; border-radius: 8px; border: none; font-size: 0.95rem;
         }
         .chat-input:focus { box-shadow: 0 0 0 2px var(--primary-light); }
         
-        .recording-ui {
-            display: none; flex: 1; margin: 0 0.5rem; background: #fee2e2; color: #dc2626; border-radius: 8px; padding: 0.5rem; font-size: 0.85rem; align-items: center; gap: 0.5rem; animation: pulse-rec 1.5s infinite;
+        .chat-icon-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--trans-fast);
         }
-        @keyframes pulse-rec { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-        .cancel-record { margin-left: auto; color: #dc2626; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
+        .chat-icon-btn:hover { color: var(--primary); background: rgba(79, 70, 229, 0.05); }
+        
+        .send-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+        .send-btn:hover { background: var(--primary-hover); }
+
+        .recording-ui {
+            display: none;
+            flex: 1;
+            margin: 0 0.5rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            align-items: center;
+            gap: 0.5rem;
+            animation: pulse-rec 1.5s infinite;
+        }
+        @keyframes pulse-rec {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        .cancel-record {
+            margin-left: auto;
+            color: #dc2626;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
 
         .empty-state { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-direction: column; gap: 1rem; }
 
@@ -462,8 +483,10 @@
         @media (max-width: 768px) {
             #app { flex-direction: column; }
             .sidebar { 
-                width: 100%; height: 35px; flex-direction: row; justify-content: space-around; padding: 0; 
-                order: 2; border-right: none; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; 
+                width: 100%; height: 35px; 
+                flex-direction: row; justify-content: space-around; padding: 0; 
+                order: 2; border-right: none; border-top: 1px solid var(--border); 
+                position: fixed; bottom: 0; left: 0; 
                 padding-bottom: env(safe-area-inset-bottom);
             }
             .brand-logo { display: none; }
@@ -472,6 +495,7 @@
             .nav-item { margin: 0; width: 24px; height: 24px; } 
             .nav-item svg { width: 18px; height: 18px; } 
             .sidebar-profile { display: none; }
+            
             .main-content { padding: 1rem; padding-bottom: 60px; order: 1; }
             .header-top { flex-direction: row; align-items: center; }
             .grid-3 { grid-template-columns: 1fr; } 
@@ -501,23 +525,23 @@
 <div id="access-point">
     <div class="access-container">
         <div class="access-logo">SH</div>
-        <h1 class="access-title">Selamat Datang</h1>
-        <p class="access-subtitle">Pilih peran Anda untuk melanjutkan</p>
+        <h1 class="access-title">Welcome</h1>
+        <p class="access-subtitle">Select your role to continue</p>
 
         <div class="access-options">
             <!-- USER CARD -->
             <div class="access-card" onclick="Auth.openUserAuth()">
                 <div class="card-icon">👥</div>
-                <div class="card-title">Sebagai User</div>
-                <p class="card-desc">Akses fitur Events, Chat, dan Profil standar.</p>
+                <div class="card-title">As User</div>
+                <p class="card-desc">Access standard features like Events, Chat, and Profile.</p>
                 <div class="access-deco"></div>
             </div>
 
             <!-- ADMIN CARD -->
             <div class="access-card admin" onclick="Auth.openAdminAuth()">
                 <div class="card-icon">🛡️</div>
-                <div class="card-title">Sebagai Admin</div>
-                <p class="card-desc">Akses kelola database dan sistem.</p>
+                <div class="card-title">As Admin</div>
+                <p class="card-desc">Access database and system management.</p>
                 <div class="access-deco"></div>
             </div>
         </div>
@@ -529,8 +553,8 @@
     <div class="auth-card">
         <button class="back-btn" onclick="Auth.returnToAccessPoint()">←</button>
         <div class="auth-logo">SH</div>
-        <h2 class="auth-title" id="auth-heading">Login User</h2>
-        <p class="auth-subtitle" id="auth-subheading">Silakan login atau daftar akun baru.</p>
+        <h2 class="auth-title" id="auth-heading">User Login</h2>
+        <p class="auth-subtitle" id="auth-subheading">Please login or register a new account.</p>
 
         <div class="auth-tabs" id="auth-tabs-container">
             <div class="auth-tab active" onclick="Auth.switchTab('login')">Login</div>
@@ -581,14 +605,14 @@
         <button class="close-modal-btn" onclick="Auth.closeResetModal()">×</button>
         <div class="auth-logo" style="background: #ef4444;">🔑</div>
         <h2 class="auth-title" style="margin-top: 1rem;">Reset Password</h2>
-        <p class="auth-subtitle">Masukkan email/phone Anda untuk menerima instruksi reset.</p>
+        <p class="auth-subtitle">Enter your email/phone to receive reset instructions.</p>
         
         <form onsubmit="Auth.handleReset(event)">
             <div class="form-group">
                 <label class="form-label">Email or Phone</label>
                 <input type="text" class="auth-input" id="reset-id" placeholder="e.g. user@mail.com" required>
             </div>
-            <button type="submit" class="btn-auth" id="btn-reset-submit" style="background: var(--primary);">Kirim Link Reset</button>
+            <button type="submit" class="btn-auth" id="btn-reset-submit" style="background: var(--primary);">Send Reset Link</button>
         </form>
     </div>
 </div>
@@ -609,9 +633,9 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
             </div>
             
-            <!-- ADMIN DASHBOARD LINK (Only visible to Admin) -->
+            <!-- ADMIN DASHBOARD LINK -->
             <div id="nav-admin" class="nav-item" onclick="Router.navigate('admin')" title="Admin Dashboard" style="display: none;">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2zm0 0V9a2 2 0 012-2H5a2 2 0 00-2 2v2m14 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v2" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 7h.01M8 12h.01m3.99-.28a4 4 0 11-7.98-.01M12 16a4 4 0 014-4 4 4 0 01-4-4zm2-4h-4" /></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2zm0 0V9a2 2 0 012-2H5a2 2 0 00-2 2v2m14 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v2" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7h.01M8 12h.01m3.99-.28a4 4 0 11-7.98-.01M12 16a4 4 0 114-4 4 4 0 01-4-4zm2-4h-4" /></svg>
             </div>
             
             <!-- Profile Nav Item -->
@@ -636,7 +660,6 @@
                 <p>Discover what's happening around you</p>
             </div>
             <div class="header-actions">
-                <div id="user-role-badge" class="badge" style="display: none;">User</div>
                 <button class="btn-icon-small" onclick="Theme.toggle()">
                     <svg id="theme-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                 </button>
@@ -710,13 +733,13 @@
                                 <span class="cancel-record" onclick="Chat.stopRecording()">Cancel</span>
                             </div>
 
-                            <button class="chat-icon-btn" id="btn-plus" onclick="Chat.toggleMenu()">
+                            <button class="btn-icon-small" id="btn-plus" onclick="Chat.toggleMenu()">
                                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4m16 8l-4-4m4 4H4" /></svg>
                             </button>
 
                             <input type="text" class="chat-input" id="chat-input-field" placeholder="Type a message..." onkeypress="if(event.key==='Enter') Chat.sendMessage()">
 
-                            <button class="chat-icon-btn" id="btn-mic" onclick="Chat.startRecording()">
+                            <button class="btn-icon-small" id="btn-mic" onclick="Chat.startRecording()">
                                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             </button>
 
@@ -729,14 +752,14 @@
             </div>
         </section>
 
-        <!-- ADMIN DASHBOARD (Only for Admin) -->
+        <!-- ADMIN DASHBOARD -->
         <section id="view-admin" class="view-section">
             <div class="card" style="border: 1px solid var(--admin-color); max-width: 900px; margin: 0 auto;">
                 <div style="display:flex; align-items:center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
                     <div style="width: 50px; height: 50px; background: var(--admin-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">🛡️</div>
                     <div>
                         <h2 style="font-size: 1.5rem; color: var(--text-main);">Admin Dashboard</h2>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">Kelola database dan pengaturan sistem.</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Manage database and system settings.</p>
                     </div>
                 </div>
 
@@ -755,7 +778,7 @@
                     <h3 style="font-size: 1.1rem; margin-bottom: 1.25rem;">Database Management</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <button class="btn btn-primary" onclick="DB.export()" style="justify-content: center;">
-                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-right:0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-3-4l4-4m0 0l-4 4m4-4v1m-4-4v1m4-4v1h10m10 0v1m-3-4l4-4m0 0l-4 4m4-4v1m-4-4v1h10m10 0v1m-3-4l4-4"/></svg>
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-right:0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-3-4l4-4m0 0l-4 4m4-4v1m-4-4v1h10m10 0v1m-3-4l4-4m4-4v1m-4-4v1h10m10 0v1m-3-4l4-4"/></svg>
                             Export JSON
                         </button>
                         <button class="btn btn-danger" onclick="DB.reset()" style="justify-content: center;">
@@ -766,7 +789,7 @@
                 </div>
                 
                 <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Sistem versi: v11 (Dual Access)</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">System version: v12 (English)</p>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span class="badge" style="background: var(--admin-light); color: var(--admin-color);">ROLE: ADMIN</span>
                     </div>
@@ -851,7 +874,7 @@ const Utils = {
 
 // --- 2. AUTHENTICATION MODULE ---
 const Auth = {
-    USERS_KEY: 'socialhub_v11_users_db', // New Key to prevent conflicts if upgraded
+    USERS_KEY: 'socialhub_v12_users_db',
     SESSION_KEY: 'socialhub_session',
     ADMIN_CRED: { id: 'admin@gmail.com', pass: 'admin123', name: 'System Administrator', role: 'admin', avatar: '🛡️', bio: 'Manage the system.', id: 'admin_01' },
 
@@ -884,29 +907,29 @@ const Auth = {
     },
 
     resetFormUI: (mode) => {
-        const tabsContainer = document.getElementById('auth-tabs-container');
-        const registerForm = document.getElementById('register-form');
-        const switchAuth = document.getElementById('switch-auth-container');
-        const title = document.getElementById('auth-heading');
-        const sub = document.getElementById('auth-subheading');
         const loginForm = document.getElementById('login-form');
+        const regForm = document.getElementById('register-form');
+        const tabs = document.querySelectorAll('.auth-tab');
+        const heading = document.getElementById('auth-heading');
+        const subheading = document.getElementById('auth-subheading');
+        const switchLink = document.querySelector('#switch-auth-container a');
 
         if (mode === 'admin') {
             // Admin Mode: No Tabs, No Register. Just Login.
             tabsContainer.style.display = 'none';
-            registerForm.style.display = 'none';
+            regForm.style.display = 'none';
             switchAuth.style.display = 'none';
-            title.textContent = 'Admin Login';
-            sub.textContent = 'Masuk dengan akun admin untuk mengelola database.';
+            heading.textContent = 'Admin Login';
+            subheading.textContent = 'Please login to manage the database.';
             loginForm.style.display = 'block';
-            // Pre-fill hint (Optional)
+            // Pre-fill hint
             document.getElementById('login-id').placeholder = 'admin@gmail.com';
         } else {
             // User Mode
             tabsContainer.style.display = 'flex';
             switchAuth.style.display = 'block';
-            title.textContent = 'Login User';
-            sub.textContent = 'Silakan login atau daftar akun baru.';
+            heading.textContent = 'User Login';
+            subheading.textContent = 'Please login or register a new account.';
             loginForm.style.display = 'block'; // Starts with Login
             Auth.switchTab('login'); // Reset tabs
         }
@@ -925,46 +948,55 @@ const Auth = {
             regForm.style.display = 'none';
             tabs[0].classList.add('active');
             tabs[1].classList.remove('active');
-            heading.textContent = 'Login User';
-            subheading.textContent = 'Silakan login atau daftar akun baru.';
+            heading.textContent = 'User Login';
+            subheading.textContent = 'Please login or register a new account.';
             switchLink.textContent = 'Sign up';
         } else {
             loginForm.style.display = 'none';
             regForm.style.display = 'block';
             tabs[0].classList.remove('active');
             tabs[1].classList.add('active');
-            heading.textContent = 'Register User';
-            subheading.textContent = 'Buat akun baru untuk menikmati fitur.';
+            heading.textContent = 'User Register';
+            subheading.textContent = 'Create a new account to enjoy the features.';
             switchLink.textContent = 'Sign in';
         }
     },
 
-    // --- RESET PASSWORD ---
+    // --- NEW: FORGOT PASSWORD FUNCTIONS ---
     openResetModal: () => {
         document.getElementById('reset-modal-container').classList.remove('hidden');
     },
+
     closeResetModal: () => {
         document.getElementById('reset-modal-container').classList.add('hidden');
-        document.getElementById('reset-id').value = '';
+        document.getElementById('reset-id').value = ''; // Clear input
     },
+
     handleReset: (e) => {
         e.preventDefault();
+        const btnId = 'btn-reset-submit';
         const id = document.getElementById('reset-id').value;
-        if(!id) { Utils.toast('Please enter your email or phone', 'error'); return; }
-        
-        Utils.loading('btn-reset-submit', true);
+
+        if(!id) {
+            Utils.toast('Please enter your email or phone', 'error');
+            return;
+        }
+
+        Utils.loading(btnId, true);
+
         setTimeout(() => {
             const users = JSON.parse(localStorage.getItem(Auth.USERS_KEY) || '[]');
-            // Check Admin or User
-            const user = users.find(u => u.id === id) || (id === Auth.ADMIN_CRED.id ? Auth.ADMIN_CRED : null);
+            const user = users.find(u => u.id === id);
 
             if (user) {
+                // Simulation: In real app, send email here.
                 Utils.toast(`Reset link sent to ${user.id}`);
+                Utils.toast(`Hello ${user.name}! Check your ${user.id.includes('@') ? 'email' : 'phone'}. (Simulation)`);
                 Auth.closeResetModal();
             } else {
-                Utils.toast('User not found.', 'error');
+                Utils.toast('User not found. Please check your email/phone.', 'error');
             }
-            Utils.loading('btn-reset-submit', false);
+            Utils.loading(btnId, false);
         }, 1000);
     },
 
@@ -1007,14 +1039,6 @@ const Auth = {
         Utils.loading(btnId, true);
 
         setTimeout(() => {
-            // 1. Check Admin
-            if (id === Auth.ADMIN_CRED.id && pass === Auth.ADMIN_CRED.pass) {
-                Auth.setSession(Auth.ADMIN_CRED);
-                Utils.loading(btnId, false);
-                return;
-            }
-
-            // 2. Check Users
             const users = JSON.parse(localStorage.getItem(Auth.USERS_KEY) || '[]');
             const user = users.find(u => u.id === id && u.pass === pass);
 
@@ -1038,21 +1062,17 @@ const Auth = {
         document.getElementById('access-point').classList.add('hidden');
         document.getElementById('app').classList.add('active');
         
-        // Show Admin Nav if Admin
-        if (AppData.currentUser.role === 'admin') {
-            document.getElementById('nav-admin').style.display = 'flex';
-            // Update Stats
-            const users = JSON.parse(localStorage.getItem(Auth.USERS_KEY) || '[]');
-            document.getElementById('stat-users').textContent = users.length;
-            document.getElementById('stat-events').textContent = AppData.events.length;
-        }
-
         Theme.init();
         Profile.init();
         Events.render();
         Friends.render();
         Chat.init();
         Router.navigate('events');
+    },
+
+    showAuth: () => {
+        document.getElementById('auth-overlay').classList.remove('hidden');
+        document.getElementById('access-point').classList.remove('hidden');
     },
 
     logout: () => {
@@ -1065,7 +1085,7 @@ const Auth = {
 
 // --- 3. DATABASE ---
 const DB = {
-    KEY: 'socialhub_v11_data',
+    KEY: 'socialhub_v12_data',
     save: (data) => localStorage.setItem(DB.KEY, JSON.stringify(data)),
     load: () => {
         const data = localStorage.getItem(DB.KEY);
@@ -1107,9 +1127,8 @@ const DB = {
         const a = document.createElement('a'); a.href = dataStr; a.download = "socialhub_backup.json"; a.click();
     },
     reset: () => {
-        if(confirm('Apakah Anda yakin ingin mereset seluruh data database?')) {
+        if(confirm('Are you sure you want to reset all data?')) {
             localStorage.removeItem(DB.KEY);
-            localStorage.removeItem(Auth.USERS_KEY); // Also clear users
             location.reload();
         }
     }
@@ -1120,13 +1139,7 @@ const AppData = DB.load();
 // --- 4. ROUTER & MODULES ---
 const Router = {
     navigate: (viewId) => {
-        // Hide Admin nav if not admin
-        if (viewId !== 'admin' && AppData.currentUser.role !== 'admin') {
-             // Logic handled by CSS display: none, but safety check
-        }
-
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        
         const activeNav = document.querySelector(`.nav-item[onclick*='${viewId}']`);
         if(activeNav) {
             if(viewId === 'admin') activeNav.classList.add('admin-active'); 
@@ -1170,14 +1183,8 @@ const Profile = {
     init: () => {
         const user = AppData.currentUser;
         if(user) {
-            // Header Welcome
             const displayName = user.name || 'User';
-            const roleBadge = user.role === 'admin' 
-                ? `<span class="badge" style="background: var(--admin-light); color: var(--admin-color);">ADMIN</span>` 
-                : `<span class="badge" style="background: var(--primary-light); color: var(--primary);">USER</span>`;
-            
-            document.getElementById('welcome-msg').innerHTML = `Welcome, <span style="font-weight:600;">${displayName.split(' ')[0]}</span>! ${roleBadge}`;
-            document.getElementById('user-role-badge').style.display = 'none'; // Hide header badge if exists
+            document.getElementById('welcome-msg').textContent = `Welcome, ${displayName.split(' ')[0]}!`;
             
             const sidebarAvatar = document.getElementById('sidebar-avatar');
             sidebarAvatar.src = user.avatar || Utils.randomImg(user.id);
@@ -1233,30 +1240,25 @@ const Profile = {
 
         Profile.saveToDatabase(AppData.currentUser);
         Utils.toast('Profile saved successfully!');
+
         Router.navigate('events'); 
     },
 
     saveToDatabase: (updatedUser) => {
-        // 1. Save Session
         localStorage.setItem(Auth.SESSION_KEY, JSON.stringify(updatedUser));
         
-        // 2. Save to User DB (unless admin)
-        if(updatedUser.role !== 'admin') {
-            const users = JSON.parse(localStorage.getItem(Auth.USERS_KEY) || '[]');
-            const userIndex = users.findIndex(u => u.id === updatedUser.id);
-            if (userIndex !== -1) {
-                users[userIndex] = updatedUser;
-                localStorage.setItem(Auth.USERS_KEY, JSON.stringify(users));
-            }
+        const users = JSON.parse(localStorage.getItem(Auth.USERS_KEY) || '[]');
+        const userIndex = users.findIndex(u => u.id === updatedUser.id);
+        if (userIndex !== -1) {
+            users[userIndex] = updatedUser;
+            localStorage.setItem(Auth.USERS_KEY, JSON.stringify(users));
         }
 
         AppData.currentUser = updatedUser;
+
         Profile.renderDisplay(updatedUser);
-        
-        // Update Sidebar
-        const sidebarAvatar = document.getElementById('sidebar-avatar');
-        sidebarAvatar.src = updatedUser.avatar || Utils.randomImg(updatedUser.id);
-        document.getElementById('welcome-msg').innerHTML = `Welcome, <span style="font-weight:600;">${updatedUser.name.split(' ')[0]}</span>!`;
+        document.getElementById('sidebar-avatar').src = updatedUser.avatar || Utils.randomImg(updatedUser.id);
+        document.getElementById('welcome-msg').textContent = `Welcome, ${updatedUser.name.split(' ')[0]}!`;
     }
 };
 
@@ -1283,7 +1285,7 @@ const Events = {
                 </div>
                 <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="Utils.toast('Joined ${ev.title}')">Join Event</button>
             </div>
-        `}).join('');
+        `).join('');
     },
     filter: (q) => Events.render(AppData.events.filter(e => e.title.toLowerCase().includes(q.toLowerCase()))),
     filterByType: (t) => t === 'all' ? Events.render() : Events.render(AppData.events.filter(e => e.type === t))
@@ -1314,7 +1316,7 @@ const Chat = {
     activeFriendId: null,
     mediaRecorder: null,
     audioChunks: [],
-    attachedFile: null,
+    attachedFile: null, 
 
     init: () => { 
         document.addEventListener('click', (e) => {
